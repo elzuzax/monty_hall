@@ -1,5 +1,5 @@
-/* Author: Jon, aka datadmirateur
- * Published under MIT license. Please see license.txt for details.
+/* Author: Jon, aka elzuzax
+ * Published under MIT license. 
  * 
  */
 
