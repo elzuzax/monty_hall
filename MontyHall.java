@@ -19,7 +19,7 @@ public class MontyHall {
 		Scanner sc = new Scanner(System.in);
 		numRuns = sc.nextInt();
 		
-	System.out.println("\nWould you like to switch doors?\n"
+		System.out.println("\nWould you like to switch doors?\n"
 			+ "Type 'y' or 'yes' to switch, or enter any character to remain at selected door.");
 		
 		String yayNay = sc.next();
@@ -36,9 +36,7 @@ public class MontyHall {
 		Thread.sleep(1000);
 		
 		System.out.println("Percentage of wins over " + numRuns + 
-                      " runs is " +
-		 goLoop(changeDoors) + "%.");
-
+                      " runs is " + goLoop(changeDoors) + "%.");
 	}
 	
 	//prints a cute "Working" message...with ellipses!
@@ -61,8 +59,7 @@ public class MontyHall {
 		long startTime = System.currentTimeMillis();
 		double winRatio = 0;
 		
-		for (int i = 0; i < numRuns; i++) {
-			
+		for (int i = 0; i < numRuns; i++) {	
 			if (i > 0) { //don't blow stuff up by dividing by zero
 				winRatio = (double) numWins / i; // set break point here and in debugger, note convergence to either 1/3 or 2/3
 			}
@@ -150,5 +147,4 @@ public class MontyHall {
 		
 		return winRatio * 100;
 	}
-
 }
