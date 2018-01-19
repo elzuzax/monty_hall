@@ -1,4 +1,4 @@
-/* Author: Jon, aka elzuzax
+/* Author: Jonathan Stone, aka elzuzax
  * Published under MIT license. 
  * 
  */
@@ -71,7 +71,7 @@ public class MontyHall {
 				startTime = System.currentTimeMillis(); //reset stopwatch
 			}
 			
-		    int winningDoor = (int) (Math.random() * 3 + 1); //gets random number in range [1,3]
+		int winningDoor = (int) (Math.random() * 3 + 1); //gets random number in range [1,3]
 	        int iChoose = (int) (Math.random() * 3 + 1); //select random door for contestant
 	        int hostShows = 0;
 	        
