@@ -1,4 +1,4 @@
-/* Author: Jonathan Stone, aka elzuzax
+/* Author: Jonathan Stone
  * Published under MIT license. 
  * 
  */
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class MontyHall {
 
-	public static int numRuns;
+	private static int numRuns; //number of iterations to run
 	
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -24,7 +24,7 @@ public class MontyHall {
 		
 		String yayNay = sc.next();
 		sc.close();
-		boolean changeDoors = false;
+		boolean changeDoors = false; //choice is invariant across all runs once set
 		if (yayNay.equalsIgnoreCase("y") | yayNay.equalsIgnoreCase("yes")) {
 			changeDoors = true;
 		}
@@ -40,7 +40,7 @@ public class MontyHall {
 	}
 	
 	//prints a cute "Working" message...with ellipses!
-	public static void printWorking() throws InterruptedException {
+	private static void printWorking() throws InterruptedException {
 		
 		System.out.print("Working");
 		Thread.sleep(400);
@@ -52,7 +52,7 @@ public class MontyHall {
 	}
 	
 	//run the simulation
-	public static double goLoop(boolean changeDoors) throws InterruptedException {
+	private static double goLoop(boolean changeDoors) throws InterruptedException {
 		
 		printWorking();
 		int numWins = 0;	
@@ -60,10 +60,11 @@ public class MontyHall {
 		double winRatio = 0;
 		
 		for (int i = 0; i < numRuns; i++) {	
-			if (i > 0) { //don't blow stuff up by dividing by zero
-				winRatio = (double) numWins / i; // set break point here and in debugger, note convergence to either 1/3 or 2/3
+			
+			if (i > 0) { //don't blow stuff up by dividing by 0
+				winRatio = (double) numWins / i; 
 			}
-		
+			
 			long elapsedTime = System.currentTimeMillis() - startTime;
 			
 			if (elapsedTime > 3000) {
@@ -71,80 +72,97 @@ public class MontyHall {
 				startTime = System.currentTimeMillis(); //reset stopwatch
 			}
 			
-		int winningDoor = (int) (Math.random() * 3 + 1); //gets random number in range [1,3]
-	        int iChoose = (int) (Math.random() * 3 + 1); //select random door for contestant
+		    int winningDoor = (int) (Math.random() * 3 + 1); //gets random number in range [1,3]
+	        int playerChooses = (int) (Math.random() * 3 + 1); //select random door for contestant
 	        int hostShows = 0;
 	        
-	        if (iChoose == winningDoor) {
-	        	if (iChoose == 1) {
-	        		if (Math.random() < 0.5) { //50% chance that host shows either door (which contains junk)
+	        if (playerChooses == winningDoor) {
+	        	double hostRand = Math.random(); //used by host to decide which non-selected door to open
+	        	switch (playerChooses) {
+	        	case 1: 
+	        		if (hostRand < 0.5) { 
 	        			hostShows = 2;
 	        		} else {
 	        			hostShows = 3;
 	        		}
-	        	}
-	        	if (iChoose == 2) {
-	        		if (Math.random() < 0.5) {
+	        		break;
+	        	case 2: 
+	        		if (hostRand < 0.5) { 
 	        			hostShows = 1;
-	        		} else {
+		        		} else {
 	        			hostShows = 3;
-	        		}
+		        		}
+	        		break;
+	        	case 3: 
+	        		if (hostRand < 0.5) {
+	        			hostShows = 1;
+		        		} else {
+	        			hostShows = 2;
+		        		}
+	        		break;
 	        	}
-	        	if (iChoose == 3) {
-	        		if (Math.random() < 0.5) {
+	        } else { //player didnt choose winning door	        	
+	        	switch (playerChooses){
+	        	case 1:
+	        		if (winningDoor == 2) {
+	        			hostShows = 3;
+	        		} else {
+	        			hostShows = 2;
+	        		}	
+	        		break;
+	        	case 2:
+	        		if (winningDoor == 1) {
+	        			hostShows = 3;
+	        		} else {
+	        			hostShows = 1;
+	        		}	 
+	        		break;
+	        	case 3:
+	        		if (winningDoor == 2) {
 	        			hostShows = 1;
 	        		} else {
 	        			hostShows = 2;
-	        		}
-	        	}
-	        } else { //player didnt choose winning door
-	        	if (iChoose == 1 && winningDoor == 2) {
-	        		hostShows = 3;
-	        	}
-	        	if (iChoose == 1 && winningDoor == 3) {
-	        		hostShows = 2; 	        		
-	        	}
-	        	if (iChoose == 2 && winningDoor == 1) {
-	        		hostShows = 3;
-	        	}
-	        	if (iChoose == 2 && winningDoor == 3) {
-	        		hostShows = 1; 	        		
-	        	}
-	        	if (iChoose == 3 && winningDoor == 1) {
-	        		hostShows = 2;
-	        	}
-	        	if (iChoose == 3 && winningDoor == 2) {
-	        		hostShows = 1; 	        		
+	        		}	 
+	        		break;
 	        	}	        	
 	        }
 	        
 	        //change doors if required
 	        if (changeDoors) {
-	        	if (iChoose == 1 && hostShows == 2) {
-	        		iChoose = 3;
-	        	}
-	        	else if (iChoose == 1 && hostShows == 3) {
-	        		iChoose = 2;
-	        	}
-	        	else if (iChoose == 2 && hostShows == 1) {
-	        		iChoose = 3;
-	        	}
-	        	else if (iChoose == 2 && hostShows == 3) {
-	        		iChoose = 1;
-	        	}
-	        	else if (iChoose == 3 && hostShows == 1) {
-	        		iChoose = 2;
-	        	}
-	        	else if (iChoose == 3 && hostShows == 2) {
-	        		iChoose = 1;
-	        	}
+	        	playerChooses = performDoorChange(playerChooses, hostShows);
 	        }
 	        
-	        if (iChoose == winningDoor) {
+	        if (playerChooses == winningDoor) {
 	        	numWins++;
 	        }  
-		}
-		
+		}		
 		return winRatio * 100;
+	}
+
+	private static int performDoorChange(int playerChooses, int hostShows) {
+		switch (playerChooses) {
+		case 1:
+			if (hostShows == 2) {
+				playerChooses = 3;
+			} else {
+				playerChooses = 2;
+			}		
+			break;
+		case 2:
+			if (hostShows == 1) {
+				playerChooses = 3;
+			} else {
+				playerChooses = 1;
+			}	
+			break;
+		case 3:
+			if (hostShows == 1) {
+				playerChooses = 2;
+			} else {
+				playerChooses = 1;
+			}	
+			break;
+		}	
+		return playerChooses;
 	}
 }
