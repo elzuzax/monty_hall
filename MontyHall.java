@@ -43,12 +43,11 @@ public class MontyHall {
 	private static void printWorking() throws InterruptedException {
 		
 		System.out.print("Working");
-		Thread.sleep(400);
-		System.out.print(".");
-		Thread.sleep(400);
-		System.out.print(".");
-		Thread.sleep(400);
-		System.out.println(".");
+		
+		for(int i = 0; i < 3; i++) {
+			Thread.sleep(400);
+			System.out.print(".");			
+		}
 	}
 	
 	//run the simulation
@@ -59,14 +58,12 @@ public class MontyHall {
 		long startTime = System.currentTimeMillis();
 		double winRatio = 0;
 		
-		for (int i = 0; i < numRuns; i++) {	
-			
+		for (int i = 0; i < numRuns; i++) {				
 			if (i > 0) { //don't blow stuff up by dividing by 0
 				winRatio = (double) numWins / i; 
 			}
 			
-			long elapsedTime = System.currentTimeMillis() - startTime;
-			
+			long elapsedTime = System.currentTimeMillis() - startTime;			
 			if (elapsedTime > 3000) {
 				printWorking();
 				startTime = System.currentTimeMillis(); //reset stopwatch
@@ -165,4 +162,5 @@ public class MontyHall {
 		}	
 		return playerChooses;
 	}
+	
 }
